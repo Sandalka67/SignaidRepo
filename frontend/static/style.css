@@ -4,13 +4,11 @@
     --text-main: #333333;
     --bg-light: #f8f9fa;
 }
-
 body {
     background-color: var(--bg-light);
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
-
 .navbar-brand {
     font-weight: 700;
     display: flex;
@@ -24,7 +22,6 @@ body {
     margin-right: 10px;
     font-size: 1.2rem;
 }
-
 .btn-emergency {
     background-color: var(--sig-red);
     color: white;
@@ -36,14 +33,12 @@ body {
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
 }
-
 .btn-emergency:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 25px rgba(230, 57, 70, 0.4);
     background-color: #d62828;
     color: white;
 }
-
 .card-stat {
     border-radius: 15px;
     border: 1px solid #eaeaea;
@@ -67,14 +62,12 @@ body {
     font-size: 1.5rem;
     margin-bottom: 15px;
 }
-
 #map {
     height: 500px;
     border-radius: 15px;
     border: 1px solid #eaeaea;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
-
 .condition-tag {
     border-radius: 20px;
     padding: 8px 18px;
@@ -87,13 +80,11 @@ body {
     display: inline-block;
     user-select: none;
 }
-
 .condition-tag.active {
     background: var(--sig-red);
     color: white;
     border-color: var(--sig-red);
 }
-
 .condition-tag:hover:not(.active) {
     background: #f1f1f1;
 }
