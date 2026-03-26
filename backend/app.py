@@ -3,8 +3,8 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from database.models import db, User, EmergencySignal
 
 app = Flask(__name__, 
-            template_folder=os.path.abspath('../frontend/templates'),
-            static_folder=os.path.abspath('../frontend/static'))
+            template_folder="../frontend/templates", 
+            static_folder="../frontend/static")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sigmaid.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
