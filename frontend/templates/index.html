@@ -47,21 +47,13 @@
 </div>
 
 <script>
-    var map = L.map('map').setView([42.7339, 25.4858], 7);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
-
-    L.marker([42.7339, 25.4858]).addTo(map)
-    .bindPopup()
-    .openPopup();
-
     setTimeout(function() {
         map.invalidateSize();
     }, 500);
-
     function sendEmergencySignal() {
         navigator.geolocation.getCurrentPosition((pos) => {
             fetch('/api/signal', {
