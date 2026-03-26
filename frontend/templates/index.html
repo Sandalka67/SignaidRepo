@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <div class="container mt-4">
     <div class="mb-4">
         <h2 class="fw-bold">Live Emergency Map</h2>
         <p class="text-muted">Active emergency signals across Bulgaria</p>
     </div>
 
-    <div id="map" style="height: 500px; width: 100%; border-radius: 15px; background-color: #eee; border: 1px solid #ccc;"></div>
+    <div id="map" style="height: 500px; 
+    width: 100%; border-radius: 15px;
+    background-color: #eee; border: 1px solid #ccc;">
+    </div>
 
     <div class="text-center my-5">
         <button class="btn btn-emergency btn-pulse px-5 py-3" onclick="sendEmergencySignal()">
