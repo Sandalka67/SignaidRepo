@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="fw-bold">Live Emergency Map</h2>
+<p class="text-muted mb-4">Active emergency signals across Bulgaria</p>
+
+<div id="map"></div>
+
+<script>
+    var map = L.map('map').setView([42.7339, 25.4858], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    fetch('/api/signals')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(signal => {
+                L.marker([signal.lat, signal.lng])
+                    .addTo(map)
+                    .bindPopup(`<b>Emergency!</b><br>User: ${signal.username}<br>Conditions: ${signal.conditions}`)
+                    .openPopup();
+            });
+        });
+</script>
+{% endblock %}

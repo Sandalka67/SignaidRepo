@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 bg-white p-5 rounded-4 shadow-sm">
+        <a href="/" class="text-decoration-none text-muted mb-4 d-inline-block">← Back to map</a>
+        
+        <h2 class="fw-bold">Elitsa Nikolova</h2>
+        <p class="text-muted">e.nikolova2000@gmail.com</p>
+
+        <form action="/profile" method="POST">
+            <div class="mb-4">
+                <label class="form-label fw-bold">Phone Number</label>
+                <input type="text" class="form-control" name="phone" placeholder="Your phone number" value="+359 88 123 4567">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Health Conditions</label>
+                <div class="d-flex flex-wrap">
+                    <span class="condition-tag active">Heart Disease</span>
+                    <span class="condition-tag active">Hypertension</span>
+                    <span class="condition-tag">Diabetes</span>
+                    <span class="condition-tag">Asthma</span>
+                    <span class="condition-tag">Epilepsy</span>
+                    </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Additional Health Notes</label>
+                <textarea class="form-control" name="notes" rows="4" placeholder="Medications, allergies, etc."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-danger px-4 py-2">💾 Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

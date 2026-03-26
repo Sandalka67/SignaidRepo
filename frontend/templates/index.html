@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center mb-5">
+    <button class="btn btn-emergency shadow-lg mb-5" onclick="sendEmergencySignal()">
+        ⚠️ EMERGENCY
+    </button>
+    
+    <h2 class="fw-bold">Community Impact</h2>
+    <p class="text-muted">Real-time statistics from the Sigmaid network</p>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="card-stat bg-white shadow-sm">
+            <div class="fs-1 mb-2">👥</div>
+            <h3 class="fw-bold">1</h3>
+            <p class="text-muted mb-0">Registered Users</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-stat bg-white shadow-sm">
+            <div class="fs-1 mb-2">⚠️</div>
+            <h3 class="fw-bold" id="total-signals">0</h3>
+            <p class="text-muted mb-0">Total Signals</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-stat bg-white shadow-sm">
+            <div class="fs-1 mb-2">📈</div>
+            <h3 class="fw-bold text-danger">0</h3>
+            <p class="text-muted mb-0">Active Signals</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-stat bg-white shadow-sm">
+            <div class="fs-1 mb-2">🛡️</div>
+            <h3 class="fw-bold">0</h3>
+            <p class="text-muted mb-0">Resolved</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function sendEmergencySignal() {
+    navigator.geolocation.getCurrentPosition((position) => {
+        const data = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            user_id: 1
+        };
+
+        fetch('/api/signal', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(res => {
+            alert("Signal sent! Help is on the way.");
+            window.location.href = "/map";
+        });
+    });
+}
+</script>
+{% endblock %}
