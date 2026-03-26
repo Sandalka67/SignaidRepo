@@ -1,23 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="fw-bold">Live Emergency Map</h2>
-<p class="text-muted mb-4">Active emergency signals across Bulgaria</p>
+<div class="container mt-4">
+    <div class="mb-4">
+        <h2 class="fw-bold">Live Emergency Map</h2>
+        <p class="text-muted">Active emergency signals across Bulgaria</p>
+    </div>
 
-<div id="map"></div>
+    <div id="map" style="height: 600px; width: 100%; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #ddd;"></div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <script>
     var map = L.map('map').setView([42.7339, 25.4858], 7);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
 
     fetch('/api/signals')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error("Network response was not ok");
+            return response.json();
+        })
         .then(data => {
-            data.forEach(signal => {
-                L.marker([signal.lat, signal.lng])
-                    .addTo(map)
-                    .bindPopup(`<b>Emergency!</b><br>User: ${signal.username}<br>Conditions: ${signal.conditions}`)
-                    .openPopup();
+            data.forEach(sig => {
+                const marker = L.marker([sig.lat, sig.lng]).addTo(map);
+                
+                marker.bindPopup(`
+                    <div style="min-width: 150px;">
+                        <strong style="font-size: 1.1rem;">🚨 ${sig.username}</strong><br>
+                        <hr style="margin: 5px 0;">
+                        <p style="margin: 0; color: #d9534f;"><b>Conditions:</b> ${sig.conditions}</p>
+                        <p style="margin: 0; font-size: 0.85rem; color: #555;"><b>Notes:</b> ${sig.notes}</p>
+                    </div>
+                `);
             });
-        });
+        })
+        .catch(error => console.error('Error loading signals:', error));
+
+    setTimeout(function(){ map.invalidateSize()}, 400);
 </script>
 {% endblock %}
