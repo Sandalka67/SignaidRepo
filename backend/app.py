@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from models import db, User, EmergencySignal
+from database.models import db, User, EmergencySignal
 
 app = Flask(__name__, 
             template_folder=os.path.abspath('../frontend/templates'),
