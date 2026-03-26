@@ -38,18 +38,6 @@ def index():
 def map_view():
     return render_template('map.html')
 
-@app.route('/profile', methods=['GET', 'POST'])
-def profile():
-    user = User.query.get(1)
-    
-    if request.method == 'POST':
-        user.phone = request.form.get('phone')
-        user.notes = request.form.get('notes')
-        db.session.commit()
-        return redirect(url_for('profile'))
-        
-    return render_template('profile.html', user=user)
-
 @app.route('/api/signal', methods=['POST'])
 def create_signal():
     data = request.json
@@ -76,6 +64,20 @@ def get_active_signals():
             "notes": s.user.notes
         })
     return jsonify(result)
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    user = User.query.get(1)
+    
+    if request.method == 'POST':
+        user.phone = request.form.get('phone')
+        user.notes = request.form.get('notes')
+        user.health_conditions = request.form.get('health_conditions')
+        
+        db.session.commit()
+        return redirect(url_for('profile'))
+
+    return render_template('profile.html', user=user)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

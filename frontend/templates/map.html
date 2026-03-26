@@ -1,45 +1,36 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container mt-4">
-    <div class="mb-4">
-        <h2 class="fw-bold">Live Emergency Map</h2>
-        <p class="text-muted">Active emergency signals across Bulgaria</p>
-    </div>
-
-    <div id="map" style="height: 600px; width: 100%; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #ddd;"></div>
-</div>
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<div id="map" style="height: 500px; width: 100%; border-radius: 15px;"></div>
 
 <script>
     var map = L.map('map').setView([42.7339, 25.4858], 7);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    fetch('/api/signals')
-        .then(response => {
-            if (!response.ok) throw new Error("Network response was not ok");
-            return response.json();
-        })
-        .then(data => {
-            data.forEach(sig => {
-                const marker = L.marker([sig.lat, sig.lng]).addTo(map);
-                
-                marker.bindPopup(`
-                    <div style="min-width: 150px;">
-                        <strong style="font-size: 1.1rem;">🚨 ${sig.username}</strong><br>
-                        <hr style="margin: 5px 0;">
-                        <p style="margin: 0; color: #d9534f;"><b>Conditions:</b> ${sig.conditions}</p>
-                        <p style="margin: 0; font-size: 0.85rem; color: #555;"><b>Notes:</b> ${sig.notes}</p>
-                    </div>
-                `);
+    function loadSignals() {
+        fetch('/api/signals')
+            .then(response => response.json())
+            .then(signals => {
+                signals.forEach(sig => {
+                    L.circleMarker([sig.lat, sig.lng], {
+                        radius: 10,
+                        fillColor: "#ff0000",
+                        color: "#ffffff",
+                        weight: 2,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    })
+                    .addTo(map)
+                    .bindPopup(`
+                        <div style="text-align:center">
+                            <b style="color:red">🚨 EMERGENCY</b><br>
+                            <b>User:</b> ${sig.username}<br>
+                            <b>Conditions:</b> ${sig.conditions}
+                        </div>
+                    `);
+                });
             });
-        })
-        .catch(error => console.error('Error loading signals:', error));
+    }
 
-    setTimeout(function(){ map.invalidateSize()}, 400);
+    loadSignals();
 </script>
-{% endblock %}

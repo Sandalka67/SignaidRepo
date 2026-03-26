@@ -1,94 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
-<style>
-    @keyframes pulse-red {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(220, 53, 69, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
-    }
-    .btn-pulse {
-        animation: pulse-red 2s infinite;
-        border: none;
-    }
-</style>
-
-<div class="mb-4">
-    <h2 class="fw-bold">Live Emergency Map</h2>
-    <p class="text-muted">Active emergency signals across Bulgaria</p>
-</div>
-
-<div id="map" class="shadow-sm mb-5" style="height: 450px; width: 100%; border-radius: 15px; border: 1px solid #ddd;"></div>
-
-<div class="text-center mb-5 py-4">
-    <button class="btn btn-emergency btn-pulse px-5 py-3" onclick="sendEmergencySignal()">
-        ⚠️ EMERGENCY
-    </button>
-</div>
-
-<div class="text-center mb-5">
-    <h2 class="fw-bold">Community Impact</h2>
-    <p class="text-muted">Real-time statistics from the Sigmaid network</p>
-</div>
-
-<div class="row g-4 text-center mb-5">
-    <div class="col-md-3">
-        <div class="card-stat shadow-sm">
-            <span class="stat-icon">👥</span>
-            <h3 class="fw-bold">{{ stats.users }}</h3>
-            <p class="text-muted mb-0">Registered Users</p>
-        </div>
+<div class="container mt-4">
+    <div class="mb-4">
+        <h2 class="fw-bold">Live Emergency Map</h2>
+        <p class="text-muted">Active emergency signals across Bulgaria</p>
     </div>
-    <div class="col-md-3">
-        <div class="card-stat shadow-sm">
-            <span class="stat-icon">⚠️</span>
-            <h3 class="fw-bold">{{ stats.total_signals }}</h3>
-            <p class="text-muted mb-0">Total Signals</p>
-        </div>
+
+    <div id="map" style="height: 500px; width: 100%; border-radius: 15px; background-color: #eee; border: 1px solid #ccc;"></div>
+
+    <div class="text-center my-5">
+        <button class="btn btn-emergency btn-pulse px-5 py-3" onclick="sendEmergencySignal()">
+            ⚠️ EMERGENCY ⚠️
+        </button>
     </div>
-    <div class="col-md-3">
-        <div class="card-stat shadow-sm">
-            <span class="stat-icon">📈</span>
-            <h3 class="fw-bold text-danger">{{ stats.active_signals }}</h3>
-            <p class="text-muted mb-0">Active Signals</p>
+
+    <div class="row g-4 text-center mb-5">
+        <div class="col-md-3">
+            <div class="card-stat shadow-sm">
+                <span class="stat-icon">👥</span>
+                <h3 class="fw-bold">{{ stats.users }}</h3>
+                <p class="text-muted mb-0">Registered Users</p>
+            </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card-stat shadow-sm">
-            <span class="stat-icon">🛡️</span>
-            <h3 class="fw-bold">{{ stats.resolved }}</h3>
-            <p class="text-muted mb-0">Resolved</p>
+        <div class="col-md-3">
+            <div class="card-stat shadow-sm">
+                <span class="stat-icon">⚠️</span>
+                <h3 class="fw-bold">{{ stats.total_signals }}</h3>
+                <p class="text-muted mb-0">Total Signals</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-stat shadow-sm">
+                <span class="stat-icon">📈</span>
+                <h3 class="fw-bold text-danger">{{ stats.active_signals }}</h3>
+                <p class="text-muted mb-0">Active Signals</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-stat shadow-sm">
+                <span class="stat-icon">🛡️</span>
+                <h3 class="fw-bold">{{ stats.resolved }}</h3>
+                <p class="text-muted mb-0">Resolved</p>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
     var map = L.map('map').setView([42.7339, 25.4858], 7);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    function loadMarkers() {
-        fetch('/api/signals')
-            .then(res => res.json())
-            .then(data => {
-                data.forEach(sig => {
-                    L.marker([sig.lat, sig.lng]).addTo(map)
-                     .bindPopup(`<b>${sig.username}</b><br>${sig.conditions}`);
-                });
-            });
-    }
-    loadMarkers();
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([42.7339, 25.4858]).addTo(map)
+    .bindPopup()
+    .openPopup();
+
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 500);
 
     function sendEmergencySignal() {
         navigator.geolocation.getCurrentPosition((pos) => {
-            const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
             fetch('/api/signal', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(coords)
-            }).then(() => {
-                location.reload();
-            });
-        }, (err) => {
-            alert("Please enable location services.");
+                body: JSON.stringify({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+            }).then(() => location.reload());
         });
     }
 </script>
