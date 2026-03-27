@@ -40,7 +40,6 @@ window.refreshMarkers = function () {
                     const marker = L.circleMarker([signal.lat, signal.lng], {
                         radius: 12, fillColor: "red", color: "white", weight: 2, fillOpacity: 0.9
                     }).addTo(map);
-                    // marker.bindPopup(buildPopupMessage(signal));
                     marker.bindPopup(buildPopupMessage(signal));
                 }
             });
