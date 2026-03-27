@@ -1,5 +1,5 @@
 :root {
-    --sig-red: #e63946;
+    --sig-red: #bc2433;
     --sig-light-red: #f8d7da;
     --text-main: #333333;
     --bg-light: #f8f9fa;
@@ -64,6 +64,7 @@ body {
 }
 #map {
     height: 500px;
+    width: 100%;
     border-radius: 15px;
     border: 1px solid #eaeaea;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
