@@ -62,13 +62,6 @@ body {
     font-size: 1.5rem;
     margin-bottom: 15px;
 }
-#map {
-    height: 500px;
-    width: 100%;
-    border-radius: 15px;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
 .condition-tag {
     border-radius: 20px;
     padding: 8px 18px;
