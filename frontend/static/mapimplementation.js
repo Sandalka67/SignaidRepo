@@ -1,28 +1,3 @@
-// var map = L.map('map').setView([42.7339, 25.4858], 7);
-// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//     attribution: '© OpenStreetMap contributors'
-// }).addTo(map);
-// if (emergencyBtn) {
-//     emergencyBtn.addEventListener('click', () => {
-//         if (navigator.geolocation) {
-//             navigator.geolocation.getCurrentPosition(function (position) {
-//                 // Get the real numbers
-//                 var lat = position.coords.latitude;
-//                 var lng = position.coords.longitude;
-
-//                 // 3. Place the marker on the EXACT spot
-//                 var emergencyMarker = L.marker([lat, lng]).addTo(map)
-//                     .bindPopup('good pop up')
-//                     .openPopup();
-//             }, function (error) {
-//                 alert("Error: Please enable location services to use the emergency signal.");
-//             });
-//         }
-//     });
-// }
-// Declare 'map' globally at the very top so the second file can see it
-//var map;
-
 document.addEventListener("DOMContentLoaded", () => {
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
