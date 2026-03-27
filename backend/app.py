@@ -49,15 +49,40 @@ def map_view():
 @app.route('/api/signal', methods=['POST'])
 def create_signal():
     data = request.json
+    
     new_signal = EmergencySignal(
-        user_id=1, 
-        lat=data.get('lat'), 
-        lng=data.get('lng'),
-        is_active=True
+        user_id=1, # Hardcoded for now
+        lat=data['lat'],
+        lng=data['lng'],
+        is_active=True,
+        # Save the modal data to the new columns!
+        emergency_causes=data.get('conditions', ''),
+        extra_details=data.get('notes', '') 
     )
     db.session.add(new_signal)
     db.session.commit()
+    
     return jsonify({"status": "created", "stats": get_stats()})
+
+@app.route('/api/signals')
+def get_signals():
+    active_signals = EmergencySignal.query.filter_by(is_active=True).all()
+    signal_data = []
+    
+    for sig in active_signals:
+        u = sig.user 
+        signal_data.append({
+            "lat": sig.lat,
+            "lng": sig.lng,
+            "user_name": u.full_name if u else 'Unknown',
+            "phone": u.phone if u else 'N/A',
+            "email": u.email if u else 'N/A',
+            # Send the new columns to the frontend!
+            "causes": sig.emergency_causes if sig.emergency_causes else 'Not specified',
+            "details": sig.extra_details if sig.extra_details else 'None'
+        })
+        
+    return jsonify(signal_data)
 
 @app.route('/api/resolve', methods=['POST'])
 def resolve_signal():
@@ -70,17 +95,28 @@ def resolve_signal():
 
 @app.route('/api/signals', methods=['GET'])
 def get_active_signals():
-    signals = EmergencySignal.query.filter_by(is_active=True).all()
-    result = []
-    for s in signals:
-        result.append({
-            "lat": s.lat,
-            "lng": s.lng,
-            "username": s.user.full_name,
-            "conditions": s.user.health_conditions,
-            "notes": s.user.notes
+    # 1. Fetch all active signals from the DB
+    active_signals = EmergencySignal.query.filter_by(is_active=True).all()
+    
+    signal_data = []
+    for signal in active_signals:
+        # 2. Access the User associated with this signal 
+        # (Assumes you have a db.relationship('User') in your EmergencySignal model)
+        user = signal.user 
+        
+        # 3. Build the dictionary with all the data
+        signal_data.append({
+            "lat": signal.lat,
+            "lng": signal.lng,
+            "user_name": user.full_name if user else 'Unknown User',
+            "phone": user.phone_number if user else 'N/A',
+            "email": user.email if user else 'N/A',
+            "conditions": user.health_conditions if user.health_conditions else 'Not specified', # From the modal chips
+            "notes": user.notes if signal.details else 'None'            # From the modal text area
         })
-    return jsonify(result)
+        
+    # 4. Send the enriched data to the frontend
+    return jsonify(signal_data)
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():

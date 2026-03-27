@@ -17,5 +17,7 @@ class EmergencySignal(db.Model):
     lng = db.Column(db.Float, nullable=False)
     timestamp = db.Column(db.DateTime, server_default=db.func.now())
     is_active = db.Column(db.Boolean, default=True)
+    emergency_causes = db.Column(db.Text)
+    extra_details = db.Column(db.Text)
 
     user = db.relationship('User', backref='signals')
