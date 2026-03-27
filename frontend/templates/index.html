@@ -75,4 +75,40 @@
         });
     }
 </script>
+<div class="modal fade" id="emergencyDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; padding: 10px;">
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body text-center p-4 p-sm-5">
+                <div class="warning-icon-wrapper mb-3 mx-auto"><span class="warning-icon">⚠️</span></div>
+                <h3 class="fw-bold mb-2">What is the emergency?</h3>
+                <p class="text-muted mb-4">Select the type(s) of emergency you are experiencing.</p>
+
+                <div class="d-flex flex-wrap justify-content-center gap-2 mb-4" id="emergency-chips-container">
+                    <button type="button" class="emergency-chip">Health Emergency</button>
+                    <button type="button" class="emergency-chip">Wildfire</button>
+                    <button type="button" class="emergency-chip">Flood</button>
+                    <button type="button" class="emergency-chip">Car Accident</button>
+                    <button type="button" class="emergency-chip">Animal Attack</button>
+                    <button type="button" class="emergency-chip">Earthquake</button>
+                    <button type="button" class="emergency-chip">Lost / Stranded</button>
+                    <button type="button" class="emergency-chip">Severe Injury</button>
+                    <button type="button" class="emergency-chip">Poisoning</button>
+                    <button type="button" class="emergency-chip">Drowning</button>
+                    <button type="button" class="emergency-chip">Landslide</button>
+                    <button type="button" class="emergency-chip">Power Outage (Critical)</button>
+                    <button type="button" class="emergency-chip">Other</button>
+                </div>
+
+                <div class="mb-4">
+                    <textarea id="emergency-details-input" class="form-control custom-textarea" rows="3" placeholder="Any additional details about the emergency..."></textarea>
+                </div>
+
+                <button type="button" id="confirm-emergency-btn" class="btn btn-emergency-submit w-100 py-3 rounded-pill fw-bold" disabled>
+                    Send Emergency Signal
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
