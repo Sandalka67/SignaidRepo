@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0" style="border-radius: 20px;">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-danger">Welcome Back</h2>
+                    <p class="text-muted">Log in to your Sigmaid dashboard</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('login') }}">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email Address</label>
+                        <input type="email" name="email" class="form-control form-control-lg rounded-pill" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg rounded-pill" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-lg w-100 rounded-pill fw-bold mb-3">Log In</button>
+                </form>
+                
+                <div class="text-center">
+                    <span class="text-muted">New to Sigmaid?</span> 
+                    <a href="{{ url_for('register') }}" class="text-danger fw-bold text-decoration-none">Sign up here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

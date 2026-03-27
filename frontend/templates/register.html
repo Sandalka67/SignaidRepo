@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0" style="border-radius: 20px;">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-danger">Join Sigmaid</h2>
+                    <p class="text-muted">Create an account to access emergency services</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('register') }}">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Full Name</label>
+                        <input type="text" name="full_name" class="form-control form-control-lg rounded-pill" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email Address</label>
+                        <input type="email" name="email" class="form-control form-control-lg rounded-pill" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg rounded-pill" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-lg w-100 rounded-pill fw-bold mb-3">Create Account</button>
+                </form>
+                
+                <div class="text-center">
+                    <span class="text-muted">Already have an account?</span> 
+                    <a href="{{ url_for('login') }}" class="text-danger fw-bold text-decoration-none">Log in here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

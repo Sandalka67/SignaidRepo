@@ -12,7 +12,7 @@ function buildPopupMessage(signal) {
                 
                 <div style="background-color: #f8f9fa; padding: 8px; border-radius: 6px;">
                     <small><b>Users health conditions:</b> <span style="color: #d62828;">${signal.health_conditions}</span></small><br>
-                    <small><b>Additional health notes:</b> ${signal.notes}</small><br>
+                    <small><b>Additional health:</b> ${signal.notes}</small><br>
                     <small><b>Cause of emergency:</b> <span style="color: #d62828;">${signal.causes}</span></small><br>
                     <small><b>Details:</b> ${signal.details}</small><br>
                     <small style="color: #6c757d; display: block; margin-top: 5px;">

@@ -58,7 +58,7 @@
 </div>
 
 <script>
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.titleLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
@@ -111,4 +111,141 @@
         </div>
     </div>
 </div>
+
+<script>
+    var appMap = L.map('map').setView([42.7339, 25.4858], 7);
+    
+    L.titleLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(appMap);
+
+function buildPopupMessage(signal) {
+        return `<div style="text-align: left; min-width: 250px; font-family: Arial, sans-serif;">   
+                    <div style="text-align: center; border-bottom: 2px solid #ffcccc; padding-bottom: 8px; margin-bottom: 10px;">
+                        <strong style="color: #d62828; font-size: 1.1em;">🚨 Emergency Signal</strong>
+                    </div>
+                    
+                    <b style="font-size: 1.1em;">👤 ${signal.user_name || 'Unknown'}</b><br>
+                    📞 <a href="tel:${signal.phone}" style="text-decoration: none; color: #0056b3;">${signal.phone || 'N/A'}</a><br>
+                    ✉️ <a href="mailto:${signal.email}" style="text-decoration: none; color: #0056b3;">${signal.email || 'N/A'}</a><br>
+                    
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+                    
+                    <div style="font-size: 0.9em; line-height: 1.5;">
+                        <b>Users health conditions:</b> <span style="color: #d62828;">${signal.user_health}</span><br>
+                        <b>Additional health:</b> ${signal.user_notes}<br>
+                        <b>Cause of emergency:</b> <span style="color: #d62828;">${signal.causes}</span><br>
+                        <b>Details:</b> ${signal.details}
+                    </div>
+                    
+                    <div style="margin-top: 10px; font-size: 0.85em;">
+                        <b>🗺️Map:</b> <a href="http://googleusercontent.com/maps.google.com/?q=${signal.lat},${signal.lng}" target="_blank" rel="noopener noreferrer" style="color: #0056b3; text-decoration: underline;">View on Google Maps</a>
+                    </div>
+                </div>`;
+    }
+
+    function refreshMarkers() {
+        appMap.eachLayer((layer) => {
+            if (layer instanceof L.CircleMarker) appMap.removeLayer(layer);
+        });
+
+        fetch('/api/signals?t=' + new Date().getTime())
+            .then(res => res.json())
+            .then(signals => {
+                signals.forEach(signal => {
+                    if (signal.lat && signal.lng) {
+                        const marker = L.circleMarker([signal.lat, signal.lng], {
+                            radius: 12, fillColor: "red", color: "white", weight: 2, fillOpacity: 0.9
+                        }).addTo(appMap);
+                        marker.bindPopup(buildPopupMessage(signal));
+                    }
+                });
+            })
+            .catch(err => console.error("Error loading map signals:", err));
+    }
+
+    function toggleEmergency() {
+        const btn = document.getElementById('main-action-btn');
+        const isCurrentlyActive = btn.getAttribute('data-active') === 'true';
+
+        if (!isCurrentlyActive) {
+            const myModal = new bootstrap.Modal(document.getElementById('emergencyDetailsModal'));
+            myModal.show();
+        } else {
+            btn.disabled = true;
+            btn.innerText = "PROCESSING...";
+
+            fetch('/api/resolve', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    btn.setAttribute('data-active', 'false');
+                    btn.style.backgroundColor = '#e82a3d';
+                    btn.innerText = "⚠️ EMERGENCY ⚠️";
+                    btn.disabled = false;
+                    setTimeout(() => location.reload(), 300);
+                })
+                .catch(err => {
+                    console.error("Error resolving:", err);
+                    btn.disabled = false;
+                    btn.innerText = "✅ RESOLVE EMERGENCY";
+                });
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        refreshMarkers();
+
+        const chips = document.querySelectorAll('.emergency-chip');
+        const submitBtn = document.getElementById('confirm-emergency-btn');
+        const detailsInput = document.getElementById('emergency-details-input');
+
+        chips.forEach(chip => {
+            chip.addEventListener('click', function () {
+                this.classList.toggle('active');
+                if (submitBtn) {
+                    submitBtn.disabled = document.querySelectorAll('.emergency-chip.active').length === 0;
+                }
+            });
+        });
+
+        if (submitBtn) {
+            submitBtn.addEventListener('click', () => {
+                const selectedTypes = Array.from(document.querySelectorAll('.emergency-chip.active'))
+                    .map(chip => chip.innerText).join(', ');
+                const additionalDetails = detailsInput ? detailsInput.value : "";
+
+                submitBtn.disabled = true;
+                submitBtn.innerText = "Locating GPS...";
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        fetch('/api/signal', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                lat: pos.coords.latitude,
+                                lng: pos.coords.longitude,
+                                conditions: selectedTypes,
+                                notes: additionalDetails
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(() => {
+                            setTimeout(() => location.reload(), 300);
+                        })
+                        .catch(err => {
+                            console.error("Fetch error:", err);
+                            submitBtn.innerText = "Send Emergency Signal";
+                            submitBtn.disabled = false;
+                        });
+                    }, () => {
+                        alert("Please enable GPS services to send an emergency signal.");
+                        submitBtn.innerText = "Send Emergency Signal";
+                        submitBtn.disabled = false;
+                    }, { enableHighAccuracy: true });
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}

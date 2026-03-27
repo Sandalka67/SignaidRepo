@@ -1,57 +1,98 @@
 {% extends "base.html" %}
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<div class="row justify-content-center">
-    <div class="col-md-8 bg-white p-5 rounded-4 shadow-sm">
-        <a href="/" class="text-decoration-none text-muted mb-4 d-inline-block">← Back to map</a>
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .condition-chip {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #ffffff;
+        color: #495057;
+        border: 1px solid #ced4da;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease-in-out;
+    }
+    .condition-chip:hover {
+        background-color: #f8f9fa;
+    }
+    .condition-chip.active {
+        background-color: #e82a3d;
+        color: white;
+        border-color: #e82a3d;
+        font-weight: 500;
+    }
+    .form-label {
+        font-weight: 700;
+        color: #2c3e50;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #ced4da;
+    }
+</style>
+
+<div class="profile-container mt-4 mb-5">
+    <a href="{{ url_for('index') }}" class="text-decoration-none text-muted mb-4 d-inline-block">← Back to map</a>
+    
+    <h2 class="fw-bold mt-3 text-dark">{{ current_user.full_name }}</h2>
+    <p class="text-muted mb-5">{{ current_user.email }}</p>
+    
+    <form method="POST" action="{{ url_for('profile') }}">
+        <div class="mb-5">
+            <label class="form-label">Phone Number</label>
+            <input type="text" name="phone" class="form-control" value="{{ current_user.phone or '' }}" placeholder="----">
+        </div>
         
-        <h2 class="fw-bold">{{ user.full_name }}</h2>
-        <p class="text-muted">{{ user.email }}</p>
-
-        <form action="/profile" method="POST" id="profileForm">
-            <div class="mb-4">
-                <label class="form-label fw-bold">Phone Number</label>
-                <input type="text" class="form-control" name="phone" value="{{ user.phone or '' }}" placeholder="Your phone number">
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label fw-bold">Health Conditions</label>
-                <div class="d-flex flex-wrap" id="condition-container">
-                    {% set active_conditions = user.health_conditions.split(',') if user.health_conditions else [] %}
-                    {% for cond in ["Heart Disease", "Hypertension", "Diabetes", "Asthma", "Epilepsy", "Allergies (Severe)", 
-                    "Blood Clotting Disorder", "Chronic Kidney Disease", "Stroke History", "Pacemaker", "Arrhythmia", "COPD", 
-                    "Cancer (Active)", "Mobility Impairment", "Mental Health Condition", "Pregnancy"] %}
-                    <div class="condition-tag {% if cond in active_conditions %}active{% endif %}" 
-                         onclick="toggleTag(this, '{{ cond }}')">
-                        {{ cond }}
-                    </div>
-                    {% endfor %}
+        <div class="mb-5">
+            <label class="form-label">Health Conditions</label>
+            <div class="d-flex flex-wrap mt-2" style="margin-left: -5px;">
+                {% set active_conditions = current_user.health_conditions.split(',') | map('trim') | list if current_user.health_conditions else [] %}
+                {% set all_conditions = ["Heart Disease", "Hypertension", "Diabetes", "Asthma", "Epilepsy", "Allergies (Severe)", "Blood Clotting Disorder", "Chronic Kidney Disease", "Stroke History", "Pacemaker", "Arrhythmia", "COPD", "Cancer (Active)", "Mobility Impairment", "Mental Health Condition", "Pregnancy"] %}
+                
+                {% for cond in all_conditions %}
+                <div class="condition-chip {% if cond in active_conditions %}active{% endif %}" onclick="toggleChip(this, '{{ cond }}')">
+                    {{ cond }}
                 </div>
-                <input type="hidden" name="health_conditions" id="conditions_input" value="{{ user.health_conditions or '' }}">
+                {% endfor %}
             </div>
-
-            <div class="mb-4">
-                <label class="form-label fw-bold">Additional Health Notes</label>
-                <textarea class="form-control" name="notes" rows="4" placeholder="Medications, allergies, etc.">{{ user.notes or '' }}</textarea>
-            </div>
-
-            <button type="submit" class="btn btn-danger px-4 py-2">Save Changes</button>
-        </form>
-    </div>
+            <input type="hidden" name="health_conditions" id="conditions_input" value="{{ current_user.health_conditions or '' }}">
+        </div>
+        
+        <div class="mb-5">
+            <label class="form-label">Additional Health Notes</label>
+            <textarea name="notes" class="form-control" rows="4" placeholder="----">{{ current_user.notes or '' }}</textarea>
+        </div>
+        
+        <button type="submit" class="btn text-white px-4 py-2" style="background-color: #e82a3d; border-radius: 8px; font-weight: 500; font-size: 1.05rem;">
+            Save Changes
+        </button>
+    </form>
 </div>
 
 <script>
-function toggleTag(element, value) {
+function toggleChip(element, value) {
     element.classList.toggle('active');
     const input = document.getElementById('conditions_input');
-    let currentTags = input.value ? input.value.split(',') : [];
-
+    let currentTags = input.value ? input.value.split(',').map(t => t.trim()).filter(t => t !== "") : [];
     if (element.classList.contains('active')) {
         if (!currentTags.includes(value)) currentTags.push(value);
     } else {
         currentTags = currentTags.filter(t => t !== value);
     }
-    input.value = currentTags.join(',');
+    input.value = currentTags.join(', ');
 }
 </script>
 {% endblock %}
