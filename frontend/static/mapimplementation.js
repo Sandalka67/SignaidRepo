@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
-        map = L.map('map').setView([42.7339, 25.4858], 7); 
+        window.map = L.map('map').setView([42.7339, 25.4858], 7); 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
@@ -22,8 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         }).addTo(map)
                           .bindPopup('<b style="color:red;">🚨 YOUR SIGNAL</b><br>Help is on the way!')
                           .openPopup();
-
-                        map.flyTo([lat, lng], 15, { animate: true, duration: 1.5 });
                     }
                     if (typeof window.sendSignal === "function") {
                         window.sendSignal(lat, lng);

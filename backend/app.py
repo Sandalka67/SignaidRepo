@@ -24,15 +24,23 @@ with app.app_context():
         db.session.add(demo_user)
         db.session.commit()
 
-@app.route('/')
-def index():
+def get_stats():
     stats = {
         "users": User.query.count(),
         "total_signals": EmergencySignal.query.count(),
         "active_signals": EmergencySignal.query.filter_by(is_active=True).count(),
         "resolved": EmergencySignal.query.filter_by(is_active=False).count()
     }
-    return render_template('index.html', stats=stats)
+
+    return stats
+
+@app.route('/')
+def index():
+    stats = get_stats()
+    active_event = EmergencySignal.query.filter_by(user_id=1, is_active=True).first()
+    has_active = True if active_event else False
+    
+    return render_template('index.html', stats=stats, has_active=has_active)
 
 @app.route('/map')
 def map_view():
@@ -49,7 +57,16 @@ def create_signal():
     )
     db.session.add(new_signal)
     db.session.commit()
-    return jsonify({"status": "success", "message": "Signal transmitted!"})
+    return jsonify({"status": "created", "stats": get_stats()})
+
+@app.route('/api/resolve', methods=['POST'])
+def resolve_signal():
+    active_signal = EmergencySignal.query.filter_by(user_id=1, is_active=True).first()
+    if active_signal:
+        active_signal.is_active = False
+        db.session.commit()
+
+    return jsonify({"status": "resolved", "stats": get_stats()})
 
 @app.route('/api/signals', methods=['GET'])
 def get_active_signals():

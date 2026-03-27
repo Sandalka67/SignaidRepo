@@ -11,13 +11,20 @@
     width: 100%; border-radius: 15px;
     background-color: #eee; border: 1px solid #ccc;">
     </div>
-
     <div class="text-center my-5">
-        <button class="btn btn-emergency btn-pulse px-5 py-3" onclick="sendEmergencySignal()">
-            ⚠️ EMERGENCY ⚠️
+        <button id="main-action-btn" 
+                class="btn {% if has_active %}btn-resolved{% else %}btn-emergency{% endif %} px-5 py-3" 
+                data-active="{{ 'true' if has_active else 'false' }}" 
+                onclick="toggleEmergency()">
+            
+            {% if has_active %}
+                ✅ RESOLVE EMERGENCY
+            {% else %}
+                ⚠️ EMERGENCY ⚠️
+            {% endif %}
+            
         </button>
     </div>
-
     <div class="row g-4 text-center mb-5">
         <div class="col-md-3">
             <div class="card-stat shadow-sm">
