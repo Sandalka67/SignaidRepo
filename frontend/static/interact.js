@@ -1,14 +1,14 @@
 function buildPopupMessage(signal) {
-        return `<div style="text-align: left; min-width: 25rem; font-family: Arial, sans-serif;">   
-                    <div style="text-align: center; border-bottom: 0.2rem solid #ffcccc; padding-bottom: 0.8rem; margin-bottom: 1rem;">
-                        <strong style="color: #d62828; font-size: 1.1rem;">🚨 Emergency Signal</strong>
+        return `<div style="text-align: left; min-width: 250px; font-family: Arial, sans-serif;">   
+                    <div style="text-align: center; border-bottom: 2px solid #ffcccc; padding-bottom: 8px; margin-bottom: 10px;">
+                        <strong style="color: #d62828; font-size: 1.1em;">🚨 Emergency Signal</strong>
                     </div>
                     
                     <b style="font-size: 1.1em;">👤 ${signal.user_name || 'Unknown'}</b><br>
                     📞 <a href="tel:${signal.phone}" style="text-decoration: none; color: #0056b3;">${signal.phone || 'N/A'}</a><br>
                     ✉️ <a href="mailto:${signal.email}" style="text-decoration: none; color: #0056b3;">${signal.email || 'N/A'}</a><br>
                     
-                    <hr style="border: 0; border-top: 0.1rem solid #eee; margin: 1rem 0;">
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
                     
                     <div style="font-size: 0.9em; line-height: 1.5;">
                         <b>Users health conditions:</b> <span style="color: #d62828;">${signal.user_health}</span><br>
@@ -17,7 +17,7 @@ function buildPopupMessage(signal) {
                         <b>Details:</b> ${signal.details}
                     </div>
                     
-                    <div style="margin-top: 1rem; font-size: 0.85rem;">
+                    <div style="margin-top: 10px; font-size: 0.85em;">
                         <b>🗺️link to GoogleMaps:</b> <a href="http://googleusercontent.com/maps.google.com/?q=${signal.lat},${signal.lng}" target="_blank" rel="noopener noreferrer" style="color: #0056b3; text-decoration: underline;">View on Google Maps</a>
                     </div>
                 </div>`;

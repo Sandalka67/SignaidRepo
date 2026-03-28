@@ -4,38 +4,196 @@
     --text-main: #333333;
     --bg-light: #f8f9fa;
 }
+
 body {
     background-color: var(--bg-light);
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
+
 .navbar-brand {
     font-weight: 700;
     display: flex;
     align-items: center;
 }
+
 .sig-icon {
     background: var(--sig-red);
     color: white;
-    border-radius: 0.6rem;
-    padding: 0.4rem 1rem;
-    margin-right: 1rem;
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin-right: 10px;
     font-size: 1.2rem;
 }
+
 .btn-emergency {
     background-color: var(--sig-red);
     color: white;
-    border-radius: 5rem;
-    padding: 1.5rem 5rem;
+    border-radius: 50px;
+    padding: 15px 50px;
     font-weight: bold;
     font-size: 1.25rem;
     border: none;
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 1rem 2rem rgba(230, 57, 70, 0.3);
+    box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
 }
+
 .btn-emergency:hover {
-    transform: translateY(-0.2rem);
-    box-shadow: 0 1.2rem 2.5rem rgba(230, 57, 70, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(230, 57, 70, 0.4);
+    background-color: #d62828;
+    color: white;
+}
+
+.card-stat {
+    border-radius: 15px;
+    border: 1px solid #eaeaea;
+    text-align: center;
+    padding: 30px 20px;
+    background-color: white;
+    transition: transform 0.2s;
+}
+
+.card-stat:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    background: var(--sig-light-red);
+    color: var(--sig-red);
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    z-index: 1;
+}
+
+.condition-tag {
+    border-radius: 20px;
+    padding: 8px 18px;
+    margin: 5px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background: white;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: inline-block;
+    user-select: none;
+    color: #495057;
+}
+
+.condition-tag.active {
+    background-color: var(--sig-light-red); 
+    color: var(--sig-red); 
+    border-color: var(--sig-red); 
+    font-weight: bold; 
+    box-shadow: 0 2px 4px rgba(230, 57, 70, 0.1); 
+}
+
+.condition-tag:hover:not(.active) {
+    background: #f1f1f1;
+}
+
+.btn-resolved {
+    background-color: #198754 !important; 
+    color: white !important;
+    border-radius: 50px; 
+    border: none;
+    font-size: 1.25rem;
+    box-shadow: 0 10px 20px rgba(25, 135, 84, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.btn-resolved:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(25, 135, 84, 0.4);
+}
+
+.warning-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background-color: #ffe6e6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.warning-icon {
+    font-size: 1.5rem;
+    color: #d62828;
+}
+
+.emergency-chip {
+    background-color: #f8f9fa;
+    color: #495057;
+    border: 1px solid #e9ecef;
+    border-radius: 50px;
+    padding: 8px 16px;
+    margin: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.emergency-chip:hover { 
+    background-color: #e9ecef; 
+}
+
+.emergency-chip.active {
+    background-color: var(--sig-light-red);
+    color: var(--sig-red);
+    border-color: var(--sig-red);
+    box-shadow: 0 2px 4px rgba(230, 57, 70, 0.1);
+    font-weight: bold;
+}
+
+.custom-textarea {
+    border-radius: 12px;
+    resize: none;
+    border: 1px solid #dee2e6;
+    padding: 15px;
+}
+
+.custom-textarea:focus {
+    border-color: #ffc9c9;
+    box-shadow: 0 0 0 0.25rem rgba(214, 40, 40, 0.1);
+    outline: none;
+}
+
+.btn-emergency-submit {
+    background-color: var(--sig-red);
+    color: white;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-emergency-submit:disabled {
+    background-color: #f5a3a3;
+    color: white;
+    cursor: not-allowed;
+    border: none;
+    opacity: 1; 
+}
+
+.btn-emergency-submit:not(:disabled):hover {
     background-color: #d62828;
     color: white;
 }
