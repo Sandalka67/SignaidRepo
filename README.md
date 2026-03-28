@@ -1,10 +1,10 @@
-# SigmaidRepo
+# SignaidRepo
 > Emergency aid for remote communities. > Built for HackTUES12 by Syrax.
 
 ## About The Project
-In critical moments, every second counts. "Sigmaid" is a real-time web application designed to bridge the gap between individuals in distress and emergency responders. By utilizing browser-based geolocation and a dynamic interactive map, Sigmaid allows users to broadcast their exact coordinates and relevant medical conditions instantly.
+In critical moments, every second counts. "Signaid" is a real-time web application designed to bridge the gap between individuals in distress and emergency responders. By utilizing browser-based geolocation and a dynamic interactive map, Sigmaid allows users to broadcast their exact coordinates and relevant medical conditions instantly.
 
-Whether in a remote village or a crowded city, "Sigmaid" provides a clean, panic-proof interface to get help on the map.
+Whether in a remote village or a crowded city, "Signaid" provides a clean, panic-proof interface to get help on the map.
 
 ## Key Features
 * One-Click SOS: A highly visible, accessible emergency button that instantly grabs the user's GPS coordinates (Latitude/Longitude).
@@ -31,24 +31,3 @@ Make sure you have Python installed. You can check by typing `python --version` 
 ### 2. Folder Structure
 Your project directory should look like this:
 ```text
-SigmaidRepo/
-│
-├── backend/
-│   ├── app.py             # Main Flask server
-│   ├── models.py          # Database schema
-│   └── sigmaid.db         # SQLite Database
-│
-├── frontend/
-│   ├── static/
-│   │   ├── css/
-│   │   └── js/
-│   │       ├── map_core.js   
-│   │       └── app_logic.js  
-│   │
-│   └── templates/
-│       ├── base.html      
-│       ├── index.html     
-│       └── profile.html
-
-### 3. Bash: pip install flask flask-sqlalchemy
-	     python app.py
