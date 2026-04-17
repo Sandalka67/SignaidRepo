@@ -1,1 +1,1 @@
-            static_folder="../frontend/static")
+static_folder="../frontend/static"

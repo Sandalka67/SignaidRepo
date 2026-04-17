@@ -1,10 +1,7 @@
 const translations = {
     en: {
-        // Navbar
         profile: '👤 Profile',
         logout: '↳ Log out',
-
-        // Index
         liveMap: 'Live Emergency Map',
         liveMapSub: 'Active emergency signals across Bulgaria',
         activeSignal: 'Active Signal',
@@ -15,15 +12,11 @@ const translations = {
         totalSignals: 'Total Signals',
         activeSignalsCard: 'Active Signals',
         resolved: 'Resolved',
-
-        // Emergency Modal
         whatEmergency: 'What is the emergency?',
         selectType: 'Select the type(s) of emergency you are experiencing.',
         additionalDetails: 'Any additional details about the emergency...',
         sendSignal: 'Send Emergency Signal',
         locatingGps: 'Locating GPS...',
-
-        // Emergency chips
         healthEmergency: 'Health Emergency',
         wildfire: 'Wildfire',
         flood: 'Flood',
@@ -37,18 +30,12 @@ const translations = {
         landslide: 'Landslide',
         powerOutage: 'Power Outage (Critical)',
         other: 'Other',
-
-        // Resolve modal
         resolveTitle: 'Resolve Emergency?',
         resolveText: 'Are you sure the situation is under control? This will remove your active signal.',
         cancel: 'Cancel',
         resolve: 'Resolve',
-
-        // Spinner
         locatingPosition: 'Locating your GPS position...',
         sendingSignal: 'Sending emergency signal...',
-
-        // Login
         welcomeBack: 'Welcome Back',
         loginSub: 'Log in to your Signaid dashboard',
         emailAddress: 'Email Address',
@@ -56,16 +43,12 @@ const translations = {
         logIn: 'Log In',
         newToSignaid: 'New to Signaid?',
         signUpHere: 'Sign up here',
-
-        // Register
         joinSignaid: 'Join Signaid',
         registerSub: 'Create an account to access emergency services',
         fullName: 'Full Name',
         createAccount: 'Create Account',
         alreadyHaveAccount: 'Already have an account?',
         logInHere: 'Log in here',
-
-        // Profile
         backToMap: '← Back to map',
         phoneNumber: 'Phone Number',
         healthConditions: 'Health Conditions',
@@ -73,16 +56,11 @@ const translations = {
         additionalHealthNotes: 'Additional Health Notes',
         additionalHealthNotesSub: 'Any other health details responders should know...',
         saveChanges: 'Save Changes',
-
-        // Footer
         footer: '© 2026 Signaid — Emergency aid for remote communities',
     },
     bg: {
-        // Navbar
         profile: '👤 Профил',
         logout: '↳ Изход',
-
-        // Index
         liveMap: 'Карта на спешни сигнали',
         liveMapSub: 'Активни сигнали из България',
         activeSignal: 'Активен сигнал',
@@ -93,15 +71,11 @@ const translations = {
         totalSignals: 'Общо сигнали',
         activeSignalsCard: 'Активни сигнали',
         resolved: 'Решени',
-
-        // Emergency Modal
         whatEmergency: 'Какъв е проблемът?',
         selectType: 'Изберете вида на спешния случай.',
         additionalDetails: 'Допълнителни подробности...',
         sendSignal: 'Изпрати сигнал',
         locatingGps: 'Локализиране...',
-
-        // Emergency chips
         healthEmergency: 'Здравословен проблем',
         wildfire: 'Горски пожар',
         flood: 'Наводнение',
@@ -115,18 +89,12 @@ const translations = {
         landslide: 'Свлачище',
         powerOutage: 'Спиране на тока (критично)',
         other: 'Друго',
-
-        // Resolve modal
         resolveTitle: 'Маркиране като решено?',
         resolveText: 'Сигурен ли си, че ситуацията е овладяна? Сигналът ти ще бъде премахнат.',
         cancel: 'Отказ',
         resolve: 'Потвърди',
-
-        // Spinner
         locatingPosition: 'Определяне на GPS позиция...',
         sendingSignal: 'Изпращане на сигнал...',
-
-        // Login
         welcomeBack: 'Добре дошъл',
         loginSub: 'Влез в твоя Signaid акаунт',
         emailAddress: 'Имейл адрес',
@@ -134,16 +102,12 @@ const translations = {
         logIn: 'Вход',
         newToSignaid: 'Нямаш акаунт?',
         signUpHere: 'Регистрирай се тук',
-
-        // Register
         joinSignaid: 'Регистрация в Signaid',
         registerSub: 'Създай акаунт за достъп до спешни услуги',
         fullName: 'Пълно име',
         createAccount: 'Създай акаунт',
         alreadyHaveAccount: 'Вече имаш акаунт?',
         logInHere: 'Влез тук',
-
-        // Profile
         backToMap: '← Обратно към картата',
         phoneNumber: 'Телефонен номер',
         healthConditions: 'Здравословни състояния',
@@ -151,8 +115,6 @@ const translations = {
         additionalHealthNotes: 'Допълнителни здравни бележки',
         additionalHealthNotesSub: 'Други здравни детайли за спасителите...',
         saveChanges: 'Запази промените',
-
-        // Footer
         footer: '© 2026 Signaid — Спешна помощ за отдалечени общности',
     }
 };
